@@ -138,15 +138,22 @@ boxes, scores, classes = yolo_eval(
     score_threshold=.3,
     iou_threshold=.5)
 
-cv2.namedWindow("preview")
+#cv2.namedWindow("preview")
+print("Starting video capture...")
 vc = cv2.VideoCapture(0)
 rval, frame = vc.read()
+if rval == False:
+    print("Can't read video capture.  Exiting.")
+    sys.exit(1)
+
 while True:
     if frame is not None:
         pil_image = recognize_image(frame, sess, boxes, scores, classes, is_fixed_size)
         # https://stackoverflow.com/questions/14134892/convert-image-from-pil-to-opencv-format
         open_cv_image = np.array(pil_image)
-        cv2.imshow("preview", open_cv_image)
+        # uncomment below if you want to see the image of the person.  
+        #cv2.imshow("preview", open_cv_image)
+
     rval, frame = vc.read()
 
     i = cv2.waitKey(1)

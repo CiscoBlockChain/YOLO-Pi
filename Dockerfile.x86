@@ -55,6 +55,6 @@ RUN wget https://github.com/opencv/opencv/archive/3.3.0.zip \
 && rm /3.3.0.zip \
 && rm -r /opencv-3.3.0
 
+ADD src/ /app
 WORKDIR /app
-ADD src/ app/
 CMD ["python3", "yolo-pi.py"]

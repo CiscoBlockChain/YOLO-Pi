@@ -51,3 +51,12 @@ opencv3 3.0.0 we installed using:
 conda install -c jlaura opencv3
 ```
 You could use 3.1.1 from the meno repo but it crashes, so we stick with 3.0.0 for now. 
+
+## Running in Docker
+
+
+```
+docker run -it --rm --privileged \
+	--device=/dev/video0:/dev/video0 \
+	-v `pwd`:/app ashya/yolopi /bin/bash
+```
