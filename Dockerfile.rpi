@@ -1,5 +1,5 @@
 FROM resin/rpi-raspbian:stretch
-MAINTAINER Vallard
+MAINTAINER vallard@benincosa.com
 
 RUN apt-get update && \
         apt-get install -y \
@@ -20,11 +20,13 @@ RUN apt-get update && \
         libavformat-dev \
         libpq-dev \
         libgtk2.0-dev \
-        pkg-config
-
-RUN apt-get install -y python3 python3-pip python3-setuptools python3-dev 
-
-RUN apt-get install -y libblas-dev
+        pkg-config \
+	python3 \
+	python3-pip \
+	python3-setuptools \
+	python3-dev \
+	libblas-dev \
+	liblapack-dev
 
 RUN pip3 install numpy \
         keras \

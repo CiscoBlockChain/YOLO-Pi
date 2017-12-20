@@ -60,3 +60,55 @@ docker run -it --rm --privileged \
 	--device=/dev/video0:/dev/video0 \
 	-v `pwd`:/app ashya/yolopi /bin/bash
 ```
+
+## Compiling Dockerfile on Raspberry Pi
+
+Using a RP3 we added a 2GB swap USB drive so that it could compile.  It takes FOREVER!
+
+### 1. Make the USB swapfile
+
+Instructions [courtesy of this site](https://pithings.wordpress.com/2016/06/03/how-to-mount-a-usb-drive-and-move-the-swap-file-on-raspbian/)
+
+```
+sudo fdisk /dev/sda
+sudo mkfs.ext4 /dev/sda1
+sudo mkdir /usb
+```
+
+Edit the ```/etc/fstab``` file to automatically build.  Add the following line:
+
+```
+/dev/sda1	/usb	ext4	defaults 0 0
+```
+
+Then mount everything:
+
+```
+sudo mount -a
+```
+
+Modify ```/etc/dphys-swapfile``` to include the following lines and comment out previous settings of these values:
+
+```
+CONF_SWAPFILE=/usb/swap
+CONF_SWAPSIZE=2048
+```
+
+Recreate the swapfile and turn it on: 
+
+```
+sudo dphys-swapfile setup
+sudo dphys-swapfile swapon
+```
+
+### 2. Build the Dockerfile
+
+Open a screen session so you can disconnect while it takes forever to compile.  This way you can log out while it goes forth and builds. 
+
+Copy the ```Dockerfile.rpi``` from this directory as ```~/src/Dockerfile```
+
+```
+cd ~/src
+docker build -t ashya/yolo-pi .
+```
+
