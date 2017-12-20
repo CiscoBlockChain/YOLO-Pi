@@ -25,7 +25,7 @@ classes_path = 'model_data/pascal_classes.txt'
 
 Running the ```yolo-pi.py``` will give you output like the following:
 
-![img](images/example.png)
+![img](src/images/example.png)
 
 As you can tell from the picture above the voc model is not super accurate but its pretty fast generating about 1 frame ever 2 seconds on a macbook pro. 
 
@@ -60,6 +60,7 @@ docker run -it --rm --privileged \
 	--device=/dev/video0:/dev/video0 \
 	-v `pwd`:/app ashya/yolopi /bin/bash
 ```
+
 
 ## Compiling Dockerfile on Raspberry Pi
 
