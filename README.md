@@ -108,8 +108,26 @@ Open a screen session so you can disconnect while it takes forever to compile.  
 
 Copy the ```Dockerfile.rpi``` from this directory as ```~/src/Dockerfile```
 
+Download the [Tensorflow binary](https://github.com/samjabrahams/tensorflow-on-raspberry-pi/releases/) and rename: 
+
 ```
 cd ~/src
+wget https://github.com/samjabrahams/tensorflow-on-raspberry-pi/releases/download/v1.1.0/tensorflow-1.1.0-cp34-cp34m-linux_armv7l.whl
+mv tensorflow-1.1.0-cp34-cp34m-linux_armv7l.whl tensorflow-1.1.0-cp35-cp35m-linux_armv7l.whl
+
 docker build -t ashya/yolo-pi .
 ```
+
+### 3. Run the Dockerfile
+
+```
+docker run -it --rm --device /dev/video0 ashya/yolo-pi /bin/bash
+```
+
+Run it automatically with: 
+
+```
+docker run -d --device /dev/video0 ashya/yolo-pi
+```
+
 
