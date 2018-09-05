@@ -26,7 +26,7 @@ RUN apt-get update && \
       	python3-setuptools \
 	      python3-dev \
 	      libblas-dev \
-	      liblapack-dev
+	      liblapack-dev \
 	      libhdf5-dev \
 	      python3-h5py \
 	      python3-scipy  \
