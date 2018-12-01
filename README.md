@@ -60,6 +60,15 @@ docker run -it --rm --privileged \
 	--device=/dev/video0:/dev/video0 \
 	-v `pwd`:/app ashya/yolopi /bin/bash
 ```
+## Compiling and testing on MacBook
+
+### 1. Make the docker file:
+```
+docker build -t ashya/yolo-pi --file Dockerfile.x86 .
+```
+(takes like 20 minutes!)
+
+### 2. Run on the Macbook
 
 
 ## Compiling Dockerfile on Raspberry Pi
@@ -118,7 +127,8 @@ mv tensorflow-1.1.0-cp34-cp34m-linux_armv7l.whl tensorflow-1.1.0-cp35-cp35m-linu
 docker build -t ashya/yolo-pi .
 ```
 
-### 3. Run the Dockerfile
+
+### 4. Run the Dockerfile
 
 ```
 docker run -it --rm --device /dev/video0 ashya/yolo-pi /bin/bash

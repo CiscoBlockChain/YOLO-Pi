@@ -5,12 +5,21 @@ import cv2 # using opencv 3
 import sys
 import random
 import json
-
+import datetime 
+from kafka import KafkaProducer
 import numpy as np
 from keras import backend as K
 from keras.models import load_model
 from PIL import Image, ImageFont, ImageDraw
 from yad2k.models.keras_yolo import yolo_eval, yolo_head
+
+
+try:
+    producer = KafkaProducer(bootstrap_servers='localhost:9092')
+    
+except Exception as e:
+    print("Could not connect to kafka stream", e)
+    sys.exit(1)
 
 
 # using code from yad2k
@@ -62,7 +71,7 @@ def recognize_image(image, sess, boxes, scores, classes, is_fixed_size):
         left = max(0, np.floor(left + 0.5).astype('int32'))
         bottom = min(image.size[1], np.floor(bottom + 0.5).astype('int32'))
         right = min(image.size[0], np.floor(right + 0.5).astype('int32'))
-        print(label, (left, top), (right, bottom))
+        #print(label, (left, top), (right, bottom))
 
         if top - label_size[1] >= 0:
             text_origin = np.array([left, top - label_size[1]])
@@ -79,8 +88,10 @@ def recognize_image(image, sess, boxes, scores, classes, is_fixed_size):
             fill=colors[c])
         draw.text(text_origin, label, fill=(0, 0, 0), font=font)
         del draw
-    print(json.dumps( json_data))
-
+    # Data of what we have found. 
+    val = json.dumps(json_data).encode()
+    tkey = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
+    producer.send('yolo', key=tkey.encode(), value=val)
     return image
 
 
