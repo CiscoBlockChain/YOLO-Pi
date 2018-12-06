@@ -15,7 +15,8 @@ from yad2k.models.keras_yolo import yolo_eval, yolo_head
 
 
 try:
-    producer = KafkaProducer(bootstrap_servers='localhost:9092')
+    #producer = KafkaProducer(bootstrap_servers='kafka:9092')
+    producer = KafkaProducer(bootstrap_servers='172.19.0.3:9092')
     
 except Exception as e:
     print("Could not connect to kafka stream", e)
