@@ -33,10 +33,11 @@ RUN apt-get update && \
 	      python3-pil
 
 RUN pip3 install numpy \
-        keras 
+        keras==2.1.2  \
+	kafka-python \
+        h5py==2.7.1
 
 # install Tensorflow
-#ENV TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.12.1-cp35-cp35m-linux_x86_64.whlpip3
 ADD tensorflow-1.1.0-cp35-cp35m-linux_armv7l.whl . 
 RUN pip3 install ./tensorflow-1.1.0-cp35-cp35m-linux_armv7l.whl
 

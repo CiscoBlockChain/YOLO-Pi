@@ -14,9 +14,12 @@ from PIL import Image, ImageFont, ImageDraw
 from yad2k.models.keras_yolo import yolo_eval, yolo_head
 
 
+kafka_server = os.environ['KAFKA'] # should be something like 172.19.0.3:9092
+
+print("Using Kafka server: ", kafka_server)
+
 try:
-    #producer = KafkaProducer(bootstrap_servers='kafka:9092')
-    producer = KafkaProducer(bootstrap_servers='172.19.0.3:9092')
+    producer = KafkaProducer(bootstrap_servers=kafka_server)
     
 except Exception as e:
     print("Could not connect to kafka stream", e)
