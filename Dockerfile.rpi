@@ -34,7 +34,7 @@ RUN apt-get update && \
 
 RUN pip3 install numpy \
         keras==2.1.2  \
-	kafka-python \
+	paho-mqtt \
         h5py==2.7.1
 
 # install Tensorflow

@@ -6,23 +6,26 @@ import sys
 import random
 import json
 import datetime 
-from kafka import KafkaProducer
 import numpy as np
 from keras import backend as K
 from keras.models import load_model
 from PIL import Image, ImageFont, ImageDraw
 from yad2k.models.keras_yolo import yolo_eval, yolo_head
+import paho.mqtt.client as mqtt
 
 
-kafka_server = os.environ['KAFKA'] # should be something like 172.19.0.3:9092
+mqtt_server = os.environ['MQTT']
 
-print("Using Kafka server: ", kafka_server)
+print("Using mqtt server: ", mqtt_server)
 
 try:
-    producer = KafkaProducer(bootstrap_servers=kafka_server)
-    
+    print("Starting up")
+    client = mqtt.Client("yolo-pi")
+    client.connect(mqtt_server, 1883)
+    print("Connected")
+
 except Exception as e:
-    print("Could not connect to kafka stream", e)
+    print("Could not connect to mqtt stream", e)
     sys.exit(1)
 
 
@@ -94,8 +97,9 @@ def recognize_image(image, sess, boxes, scores, classes, is_fixed_size):
         del draw
     # Data of what we have found. 
     val = json.dumps(json_data).encode()
+    print("image: ", val)
     tkey = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
-    producer.send('yolo', key=tkey.encode(), value=val)
+    client.publish('yolo', payload=val)
     return image
 
 
